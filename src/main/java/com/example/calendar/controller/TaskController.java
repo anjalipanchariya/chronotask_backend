@@ -24,6 +24,7 @@ public class TaskController {
     public List<Task> getTasksByDate(@PathVariable String date){
         LocalDate localDate = LocalDate.parse(date);
         return taskService.getAllTasks(localDate);
+
     }
 
     @PostMapping()

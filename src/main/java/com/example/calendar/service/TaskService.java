@@ -15,11 +15,36 @@ public class TaskService {
     private TaskRepo taskRepo;
 
     public List<Task> getAllTasks(LocalDate date){
-        return taskRepo.findByDate(date);
+        List<Task> todaysTasks = taskRepo.findByDate(date);
+
+        LocalDate yesterday = date.minusDays(1);
+
+        List<Task> carryOver = taskRepo.findByDateAndIsCompletedFalse(yesterday);
+
+        for(Task t : carryOver){
+            boolean alreadyExists = todaysTasks.stream()
+                    .anyMatch(task -> task.getDescription().equals(t.getDescription()));
+            if (!alreadyExists) {
+                Task newTask = new Task();
+                newTask.setDescription(t.getDescription());
+                newTask.setIsCompleted(false);
+                newTask.setDate(date);
+                todaysTasks.add(taskRepo.save(newTask));
+            }
+        }
+        return todaysTasks;
     }
 
     public List<Task> saveTasks(List<Task> tasks){
-        return taskRepo.saveAll(tasks);
+        List<Task> validTasks = tasks.stream()
+                .filter(task -> task.getDescription() != null && !task.getDescription().trim().isEmpty())
+                .toList();
+
+        if (validTasks.isEmpty()) {
+            throw new RuntimeException("No valid tasks to save.");
+        }
+
+        return taskRepo.saveAll(validTasks);
     }
 
     public void deleteTask(Long id){
