@@ -2,19 +2,27 @@ package com.example.calendar.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
 public class Task {
-    //when sending this data please send it in the desired order
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String description;
+
+//    @JsonProperty("isCompleted")
+    private boolean isCompleted;
+
+    private LocalDate date;
 
     public long getId() {
         return id;
@@ -32,7 +40,7 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
@@ -48,8 +56,6 @@ public class Task {
         this.date = date;
     }
 
-    private boolean isCompleted;
 
-    private LocalDate date;
 
 }
