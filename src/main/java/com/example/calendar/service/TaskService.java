@@ -23,12 +23,15 @@ public class TaskService {
 
         for(Task t : carryOver){
             boolean alreadyExists = todaysTasks.stream()
-                    .anyMatch(task -> task.getDescription().equals(t.getDescription()));
+                    .anyMatch(task ->
+                            (task.getOriginalTaskId() != null && task.getOriginalTaskId().equals(t.getId())) ||
+                                    task.getDescription().equals(t.getDescription()));
             if (!alreadyExists) {
                 Task newTask = new Task();
                 newTask.setDescription(t.getDescription());
                 newTask.setIsCompleted(false);
                 newTask.setDate(date);
+                newTask.setOriginalTaskId(t.getId());
                 todaysTasks.add(taskRepo.save(newTask));
             }
         }

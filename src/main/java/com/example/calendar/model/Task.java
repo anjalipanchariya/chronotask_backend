@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Entity
 public class Task {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +20,7 @@ public class Task {
 
     private LocalDate date;
 
+    private Long originalTaskId;
     public long getId() {
         return id;
     }
@@ -53,6 +53,11 @@ public class Task {
         this.date = date;
     }
 
+    public void setOriginalTaskId(Long originalTaskId) {
+        this.originalTaskId = originalTaskId;
+    }
 
-
+    public Long getOriginalTaskId() {
+        return originalTaskId;
+    }
 }
