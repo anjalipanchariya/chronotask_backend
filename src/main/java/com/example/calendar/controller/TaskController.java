@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,8 @@ public class TaskController {
 
     @GetMapping("/{date}")
     public List<Task> getTasksByDate(@PathVariable String date){
-        LocalDate localDate = LocalDate.parse(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(date, formatter);
         return taskService.getAllTasks(localDate);
 
     }
