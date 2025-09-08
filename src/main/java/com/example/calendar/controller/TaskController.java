@@ -23,8 +23,8 @@ public class TaskController {
 
     @GetMapping("/{date}")
     public List<Task> getTasksByDate(@PathVariable String date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate localDate = LocalDate.parse(date, formatter);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(date);
         return taskService.getAllTasks(localDate);
 
     }
